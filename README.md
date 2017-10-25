@@ -186,3 +186,26 @@ Custom settings for [marked](https://www.npmjs.com/package/marked). The plugin u
 }))
 ...
 ```
+
+## Expected Content Model
+As mentioned, this plugin is opinionated. It is expecting content from Contentful to have a specific shape with at least the following keys:
+
+```json
+{
+  "data": {
+    "fields": {
+      "author": [
+        {
+          "fields": {
+            "name": "Author Name"
+          }
+        }
+      ],
+      "body": "The **markdown** contents of the blog post.",
+      "date": "2017-01-12",
+      "title": "The Post Title",
+      "slug": "the-post-title"
+    }
+  }
+}
+```
