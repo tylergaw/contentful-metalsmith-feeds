@@ -1,0 +1,33 @@
+{
+  "name": "contentful-metalsmith-feeds",
+  "version": "1.0.0",
+  "description": "Metalsmith plugin to generate RSS and JSON feeds from Contentful posts.",
+  "main": "index.js",
+  "author": "Tyler Gaw",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "1.0.0-rc.2",
+    "debug": "3.1.0",
+    "marked": "0.3.6",
+    "moment": "2.19.1",
+    "rss": "1.2.2"
+  },
+  "pre-commit": [
+    "lintstaged"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "lintstaged": "lint-staged",
+    "prettier": "prettier --write *.js"
+  },
+  "devDependencies": {
+    "lint-staged": "4.3.0",
+    "pre-commit": "1.2.2",
+    "prettier": "1.7.4"
+  }
+}
