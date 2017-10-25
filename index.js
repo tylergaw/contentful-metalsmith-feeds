@@ -15,15 +15,12 @@ const validate = (metadata, settings) => {
 };
 
 const plugin = (options = {}) => {
-  const limit = 20;
   const defaults = {
     rss: {
-      destination: "rss.xml",
-      limit
+      destination: "rss.xml"
     },
     json: {
-      destination: "feed.json",
-      limit
+      destination: "feed.json"
     }
   };
 

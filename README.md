@@ -4,7 +4,14 @@ Metalsmith plugin to generate RSS and JSON feeds from [Contentful](https://www.c
 
 This works in tandem with [contentful-metalsmith](https://github.com/contentful/contentful-metalsmith). You’ll need to install and use that plugin along with this one.
 
-[contentful-metalsmith-feeds on npm](https://npmjs.org/package/contentful-metalsmith-feeds)
+[https://npmjs.org/package/contentful-metalsmith-feeds](https://npmjs.org/package/contentful-metalsmith-feeds)
+
+## ⚠️ NOTE:
+This might not be the most necessary plugin ever. I (Tyler) wrote it to serve a specific need I had on [Unstuck](https://blog.limbo.io). It's opinionated to work for the sites of that site. Much of the feed creation–JSON and RSS–is pulled from other Metalsmith plugins.
+
+**Use this with caution**. If more people end up using it, we can always expand it to make it flexible for more use cases.
+
+Main known issues; Not all RSS and JSON feed items can be configured. The keys and child elements are limited to the small set I needed for Unstuck.
 
 ## Installation
 
@@ -67,7 +74,6 @@ metalsmith(__dirname)
     site: {
       title: 'My Website',
       url: 'https://mywebsite.net',
-      author: 'Tyler Gaw',
       description: 'This is a short description of the site and feeds.'
     }
   })
@@ -109,3 +115,74 @@ Take this partial `build.js` as an example:
 ```
 
 "The Real Title of My Website" will be the title used for the generated feeds. The same is true for any `metadata.site` configuration options.
+
+## Configuration Options
+
+**Options that can be included in either `metadata.site` or in the plugin function as described above:**
+
+#### `title`
+**Required** Used as top-level `title` and `<title>` of JSON and RSS feeds, respectively.
+
+#### `url`
+Used as top-level `home_page_url` and `<link>` of JSON and RSS feeds, respectively. This will also be the base of top-level `feed_url` in the JSON feed.
+
+#### `description`
+Used as top-level `description` and `<description>` of JSON and RSS feeds, respectively.
+
+**Options that can only be included in the plugin function:**
+
+#### `contentType`
+**Required** The Contentful contentType id. This plugin is opinionated about what the content model of this type should be. This should be a standard "blog post" type object.
+
+#### `json.destination`
+**Default: feed.json** The name of the file created for the JSON Feed. This will also be the path portion of top-level `feed_url`.
+
+*Example usage:*
+```javascript
+...
+.use(contentfulFeeds({
+  contentType: 'YOUR_CONTENTFUL_CONTENT_TYPE',
+  url: 'https://mysite.org',
+  json: {
+    destination: 'mySiteFeed.json'
+  }
+}))
+...
+```
+
+This will produce the file `mySiteFeed.json` and set `feed_url: https://mysite.org/mySiteFeed.json`.
+
+#### `rss.destination`
+**Default: rss.xml** The name of the file created for the RSS Feed.
+
+*Example usage:*
+```javascript
+...
+.use(contentfulFeeds({
+  contentType: 'YOUR_CONTENTFUL_CONTENT_TYPE',
+  rss: {
+    destination: 'mySiteFeed.xml'
+  }
+}))
+...
+```
+
+This will produce the file `mySiteFeed.xml`.
+
+#### `marked`
+Custom settings for [marked](https://www.npmjs.com/package/marked). The plugin uses marked to parse post contents.
+
+*Example usage:*
+
+```javascript
+...
+.use(contentfulFeeds({
+  contentType: 'YOUR_CONTENTFUL_CONTENT_TYPE',
+  marked: {
+    smartypants: true,
+    gfm: true,
+    tables: true
+  }
+}))
+...
+```
